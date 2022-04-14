@@ -48,6 +48,7 @@
 	</td>
 	<td>
 		<!-- col.// -->
+
 					<div class="col">
 						<div class="input-group input-spinner">
 							<div class="input-group-prepend">
@@ -60,7 +61,7 @@
 									{% for item in cart_item.variations.all %}
 										<input type="hidden" name="{{ item.variation_category | lower }}" value="{{ item.variation_value | capfirst }}">
 									{% endfor %}
-									<button class="btn btn-light" type="submit" id="button-minus"> <i class="fa fa-plus"></i> </button>
+									<a class="btn btn-light" type="submit" id="button-minus"> <i class="fa fa-plus"></i></a>
 								</form>
 							</div>
 						</div> <!-- input-group.// -->
@@ -103,7 +104,8 @@
 			<p class="text-center mb-3">
 				<img src="{% static './images/misc/payments.png' %}" height="26">
 			</p>
-			<a href="{% url 'checkout' %}" class="btn btn-primary btn-block"> Checkout </a>
+
+			<a href="{% url 'cart' %}" class="btn btn-primary btn-block"> Checkout </a>
 			<a href="{% url 'store' %}" class="btn btn-light btn-block">Continue Shopping</a>
 		</div> <!-- card-body.// -->
 		</div> <!-- card.// -->
