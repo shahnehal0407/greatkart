@@ -11,10 +11,12 @@ https://docs.djangoproject.com/en/3.1/ref/settings/
 """
 
 from pathlib import Path
+
 import os
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
+
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/3.1/howto/deployment/checklist/
@@ -23,8 +25,8 @@ BASE_DIR = Path(__file__).resolve(strict=True).parent.parent
 SECRET_KEY = '6e-i!16&os1@xf_$$g3t_@xp7pi$=s1jze3bf_^5zw2moe4a!x'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
 
+DEBUG = True
 ALLOWED_HOSTS = []
 
 
@@ -41,6 +43,7 @@ INSTALLED_APPS = [
     'accounts',
     'store',
     'carts',
+
 ]
 
 MIDDLEWARE = [
@@ -51,11 +54,13 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-
-
-
-
+    # 'django_session_timeout.middleware.SessionTimeoutMiddleware',
 ]
+
+# SESSION_EXPIRE_SECONDS = 3600  # 1 hour
+# SESSION_EXPIRE_AFTER_LAST_ACTIVITY = True
+# SESSION_TIMEOUT_REDIRECT = 'accounts/login'
+
 
 ROOT_URLCONF = 'greatkart.urls'
 
@@ -72,25 +77,28 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'category.context_processors.menu_links',
                 'carts.context_processors.counter',
-
-
             ],
         },
     },
 ]
 
-WSGI_APPLICATION = 'greatkart.wsgi.application'
+
+
 AUTH_USER_MODEL = 'accounts.Account'
+
 
 # Database
 # https://docs.djangoproject.com/en/3.1/ref/settings/#databases
+# Database Configuration
 
 DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': BASE_DIR / 'db.sqlite3',
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': BASE_DIR / 'db.sqlite3',
+        }
     }
-}
+
+
 
 
 # Password validation
@@ -129,12 +137,38 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.1/howto/static-files/
 
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR/'static'
-STATICFILES_DIRS = [
-    'Greatkart/static',
 
+STATIC_URL = '/static/'
+STATIC_ROOT = BASE_DIR /'static'
+STATICFILES_DIRS = [
+    'greatkart/static',
 ]
+
+# AWS S3 Static Files Configuration
+# AWS_ACCESS_KEY_ID = config('AWS_ACCESS_KEY_ID')
+# AWS_SECRET_ACCESS_KEY = config('AWS_SECRET_ACCESS_KEY')
+# AWS_STORAGE_BUCKET_NAME = config('AWS_STORAGE_BUCKET_NAME')
+# AWS_S3_CUSTOM_DOMAIN = '%s.s3.amazonaws.com' % AWS_STORAGE_BUCKET_NAME
+# AWS_S3_OBJECT_PARAMETERS = {
+#     'CacheControl': 'max-age=86400',
+# }
+# AWS_S3_FILE_OVERWRITE = False
+# AWS_DEFAULT_ACL = 'public-read'
+# AWS_LOCATION = 'static'
+
+# STATIC_URL = 'https://%s/%s/' % (AWS_S3_CUSTOM_DOMAIN, AWS_LOCATION)
+# STATICFILES_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
+#
+# DEFAULT_FILE_STORAGE = 'greatkart.media_storages.MediaStorage'
+
 # media files configuration
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR /'media'
+
+
+from django.contrib.messages import constants as messages
+MESSAGE_TAGS = {
+    messages.ERROR: 'danger',
+}
+
+
