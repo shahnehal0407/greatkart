@@ -44,6 +44,7 @@ class Order(models.Model):
     is_ordered = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
+    pincode=models.IntegerField(blank=True,null=True)
 
 
     def full_name(self):
